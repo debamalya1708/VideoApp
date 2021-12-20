@@ -46,14 +46,23 @@ public class HomeController {
 	
 	@GetMapping("/video/{id}")
 	public Video get(@PathVariable long id) {
-		Video video = videoDAOImpl.getOne(id);
+		Video video = videoDAOImpl.findOne(id);
 		return video;
-//		Optional<Video> video =videoDAOImpl.findOne(id);
+//		Optional<Video> video =videoDAOImpl.findById(id);
 //		if(video.isPresent()) {
 //			return video.get();
 //		}else {
 //			throw new RuntimeException("video not found for the id "+id);
 //		}
+	}
+
+	@PostMapping("/video/views")
+	public void viewCount(@RequestBody Video video) {
+//		Video video = videoDAOImpl.findOne(id);
+		long views =video.getViews();
+		views++;
+		video.setViews(views);
+		update(video);
 	}
 	
 	@GetMapping("/{name}")
